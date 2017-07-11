@@ -15,5 +15,9 @@
   "bugs": {
     "url": "https://github.com/kashyap7/node-chitter-chat/issues"
   },
-  "homepage": "https://github.com/kashyap7/node-chitter-chat#readme"
+  "homepage": "https://github.com/kashyap7/node-chitter-chat#readme",
+  "dependencies": {
+    "express": "^4.15.3",
+    "socket.io": "^2.0.3"
+  }
 }
