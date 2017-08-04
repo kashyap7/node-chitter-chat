@@ -18,6 +18,7 @@
   "homepage": "https://github.com/kashyap7/node-chitter-chat#readme",
   "dependencies": {
     "express": "^4.15.3",
+    "mongoose": "^4.11.5",
     "socket.io": "^2.0.3"
   }
 }
