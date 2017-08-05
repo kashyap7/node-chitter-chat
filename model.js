@@ -1,4 +1,3 @@
-// use strict syntax
 "use strict"
 
 const mongoose = require("mongoose");
@@ -19,7 +18,7 @@ const userSchema = new Schema({
   }
 });
 
-const Users = mongoose.model("Users", userSchema);
+const User = mongoose.model("User", userSchema);
 
 //Message Schema
 
@@ -41,5 +40,5 @@ var modelsObject = {
   User : User,
   Message: Message
 };
-
 module.exports = modelsObject;
+	
