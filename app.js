@@ -1,23 +1,29 @@
-var express = require("express");
-var app = express();
-var http = require("http").Server(app)
-var port = process.env.PORT || 3000;
-var io = require("socket.io")(http);
+"use strict";
 
-app.get("/", function(req,res) {
-    res.sendFile(__dirname + "/index.html");
+const express = require("express");
+const app = express();
+const mongoose = require("mongoose");
+const config = require("config");
+const port = 3000;
+
+// db options
+let options = { 
+  server: { socketOptions: { keepAlive: 1, connectTimeoutMS: 30000 } }, 
+  replset: { socketOptions: { keepAlive: 1, connectTimeoutMS : 30000 } } 
+  };
+
+//db connection
+mongoose.connect(config.DBHost, options)
+  .then(function(){
+    console.log("Mongo connection successful");
+  }).catch(function(error){
+    console.log(error.message)
+  });
+
+app.get("/", (req, res) => {
+  res.json("Welcome to Chitter messaging app");
 });
 
-io.on("connection", function(socket){
-    console.log("a user is connected")
-    socket.on("disconnect", function(){
-        console.log("user disconnected");
-    });
-    socket.on("chat message", function(msg){
-        console.log("message: " + msg);
-    });
-})
-
-http.listen(port, function() {
-    console.log("listening on 3000");
+app.listen(port, () => {
+  console.log("Listening on port: ", port);
 });
