@@ -24,11 +24,25 @@
     <script>
       $(function () {
         var socket = io();
+        //
+        // We generate the username from a pool of nouns
+        // OK we could do a better job with the random name generator but my js skills are lousy
+        //
+        var nouns = ["ninja", "chair", "pancake", "statue", "unicorn", "rainbows", "laser", "senor", "bunny", "captain", "nibblets", "cupcake", "carrot", "gnomes", "glitter", "potato", "salad", "toejam", "curtains", "beets", "toilet", "exorcism", "stick figures", "mermaid eggs", "sea barnacles", "dragons", "jellybeans", "snakes", "dolls", "bushes", "cookies", "apples", "ice cream", "ukulele", "kazoo", "banjo", "opera singer", "circus", "trampoline", "carousel", "carnival", "locomotive", "hot air balloon", "praying mantis", "animator", "artisan", "artist", "colorist", "inker", "coppersmith", "director", "designer", "flatter", "stylist", "leadman", "limner", "make-up artist", "model", "musician", "penciller", "producer", "scenographer", "set decorator", "silversmith", "teacher", "auto mechanic", "beader", "bobbin boy", "clerk of the chapel", "filling station attendant", "foreman", "maintenance engineering", "mechanic", "miller", "moldmaker", "panel beater", "patternmaker", "plant operator", "plumber", "sawfiler", "shop foreman", "soaper", "stationary engineer", "wheelwright", "woodworkers"];
+        var i = Math.floor(Math.random() * nouns.length);
+        var name =  nouns[i];
+        // we send the the random username to the server.
+        socket.emit('on connect', name);
         $('form').submit(function(){
-          socket.emit('chat message', $('#m').val());
+          // we don't send the same message to himself, we append the message to the list ASAP.
+          var own_msg = name + ": " + $('#m').val();
+          socket.emit('chat message', own_msg);
           $('#m').val('');
+          $('#messages').append($('<li>').text(own_msg));
+          window.scrollTo(0, document.body.scrollHeight);
           return false;
         });
+        // Handling the messages others broadcast
         socket.on('chat message', function(msg){
           $('#messages').append($('<li>').text(msg));
           window.scrollTo(0, document.body.scrollHeight);

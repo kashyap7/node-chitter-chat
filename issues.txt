@@ -1,0 +1,2 @@
+- Attach a random name to the connected user
+- Connect 
